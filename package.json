@@ -5,6 +5,7 @@
 	"packageManager": "npm",
 	"dependencies": {
 		"@vinext/cloudflare": "latest",
+		"lucide-react": "^1.69.0",
 		"react": "latest",
 		"react-dom": "latest",
 		"react-server-dom-webpack": "latest",
