@@ -1,6 +1,7 @@
 "use client";
 import { ArrowRight } from "lucide-react";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import "./Navbar.css";
 
 const navbarLinks = [
@@ -50,6 +51,7 @@ function MenuIcon({ open }: { open: boolean }) {
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname(); // Get the current active URL path
 
   return (
     <header className="saanko-navbar">
@@ -61,13 +63,17 @@ export default function Navbar() {
 
         <nav className="navbar-column navbar-left-links">
           {navbarLinks.slice(0, 3).map((link) => (
-            <a key={link.label} href={link.href}>
+            <a 
+              key={link.label} 
+              href={link.href}
+              className={pathname === link.href ? "active" : ""}
+            >
               {link.label}
             </a>
           ))}
         </nav>
 
-        <a href="/home" className="navbar-column navbar-brand">
+        <a href="/home" className={`navbar-column navbar-brand ${pathname === "/home" ? "active" : ""}`}>
           <img
             src="/Saanko_logo.png"
             alt="Saanko - The Bridge between Tradition and modernity"
@@ -76,13 +82,20 @@ export default function Navbar() {
 
         <nav className="navbar-column navbar-right-links">
           {navbarLinks.slice(3).map((link, index) => (
-            <a key={link.label} href={link.href}>
+            <a 
+              key={link.label} 
+              href={link.href}
+              className={pathname === link.href ? "active" : ""}
+            >
               {link.label}
               {index === 2 && " |"}
             </a>
           ))}
 
-          <a href="/cart" className="navbar-cart">
+          <a 
+            href="/cart" 
+            className={`navbar-cart ${pathname === "/cart" ? "active" : ""}`}
+          >
             <span className="navbar-cart-label">CART |</span>
             <ShoppingBag />
           </a>
@@ -108,11 +121,15 @@ export default function Navbar() {
           <MenuIcon open={menuOpen} />
         </button>
 
-        <a href="/" className="mobile-brand">
+        <a href="/home" className="mobile-brand">
           <img src="/Saanko_logo.png" alt="Saanko" />
         </a>
 
-        <a href="/cart" className="mobile-cart" aria-label="Shopping cart">
+        <a 
+          href="/cart" 
+          className={`mobile-cart ${pathname === "/cart" ? "active" : ""}`} 
+          aria-label="Shopping cart"
+        >
           <span className="mobile-cart-label">CART |</span>
           <ShoppingBag />
         </a>
@@ -125,7 +142,12 @@ export default function Navbar() {
       {/* Mobile menu panel */}
       <div className={`mobile-menu-panel ${menuOpen ? "open" : ""}`}>
         {menuLinks.map((link) => (
-          <a key={link.label} href={link.href} onClick={() => setMenuOpen(false)}>
+          <a 
+            key={link.label} 
+            href={link.href} 
+            className={pathname === link.href ? "active" : ""}
+            onClick={() => setMenuOpen(false)}
+          >
             <span>{link.label}</span>
             <ArrowRight className="menu-link-arrow" size={25} strokeWidth={1.5}/>
           </a>
